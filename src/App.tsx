@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import ReactPlayer from "react-player";
 
 function App() {
@@ -9,8 +9,6 @@ function App() {
   const [startTime, setStartTime] = useState(0);
   const [displayStopTime, setDisplayStopTime] = useState(100);
   const [stopTime, setStopTime] = useState(100);
-  const vidHeight = (((window.innerWidth / 16) * 9) / 100) * 93;
-  const vidWidth = vidHeight / 9 * 16;
 
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds > stopTime) {
