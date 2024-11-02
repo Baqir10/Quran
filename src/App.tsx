@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     setHeight(calcHeight(0.63));
     setWidth(calcWidth(0.63));
+    console.log(window.innerWidth);
   }, [window])
 
   const changeStartTime = (start: number) => {
@@ -163,12 +164,12 @@ function calcHeight(ratio: number) {
   if (window.innerWidth > window.innerHeight) {
     return window.innerHeight * ratio;
   }
-  return window.innerWidth / 16 * 9 * ratio;
+  return window.innerWidth / 16 * 9;
 }
 
 function calcWidth(ratio: number) {
   if (window.innerWidth > window.innerHeight) {
-    return window.innerWidth * ratio;
+    return window.innerHeight / 9 * 16 * ratio;
   }
-  return window.innerHeight / 16 * 9 * ratio;
+  return window.innerWidth;
 }
