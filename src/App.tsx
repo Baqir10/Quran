@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 
 function App() {
@@ -9,12 +9,19 @@ function App() {
   const [startTime, setStartTime] = useState(0);
   const [displayStopTime, setDisplayStopTime] = useState(100);
   const [stopTime, setStopTime] = useState(100);
+  const [height, setHeight] = useState(calcHeight(0.63));
+  const [width, setWidth] = useState(calcWidth(0.63));
 
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds > stopTime) {
       playerRef.current?.seekTo(startTime, "seconds");
     }
   };
+
+  useEffect(() => {
+    setHeight(calcHeight(0.63));
+    setWidth(calcWidth(0.63));
+  }, [window])
 
   const changeStartTime = (start: number) => {
     if (playerRef.current) {
@@ -74,7 +81,7 @@ function App() {
           url={finalVideoURL}
           playing
           controls
-          width={`${calcWidth(0.63)}px`}
+          width={width}
           height={`${calcHeight(0.63)}px`}
           onReady={() =>
             playerRef.current && setStopTime(playerRef.current.getDuration())
