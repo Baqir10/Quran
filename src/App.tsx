@@ -83,7 +83,7 @@ function App() {
           playing
           controls
           width={width}
-          height={`${calcHeight(0.63)}px`}
+          height={height}
           onReady={() =>
             playerRef.current && setStopTime(playerRef.current.getDuration())
           }
