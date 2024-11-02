@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 
 function App() {
@@ -9,7 +9,8 @@ function App() {
   const [startTime, setStartTime] = useState(0);
   const [displayStopTime, setDisplayStopTime] = useState(100);
   const [stopTime, setStopTime] = useState(100);
-  const vidHeight = `${(((window.innerWidth / 16) * 9) / 100) * 75}px`;
+  const vidHeight = (((window.innerWidth / 16) * 9) / 100) * 93;
+  const vidWidth = vidHeight / 9 * 16;
 
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds > stopTime) {
@@ -41,7 +42,12 @@ function App() {
 
   return (
     <div
-      style={{ width: "100%", justifyContent: "center", paddingTop: "30px" }}
+      style={{
+        height: "90vh",
+        width: "96vw",
+        margin: "0px",
+        justifyContent: "center",
+      }}
     >
       <div
         style={{
@@ -63,20 +69,22 @@ function App() {
           }}
         />
       </div>
+
       <div style={{ width: "100%", justifyContent: "center", display: "flex" }}>
         <ReactPlayer
           ref={playerRef}
           url={finalVideoURL}
           playing
           controls
-          width="75%"
-          height={vidHeight}
+          width={`${calcWidth(0.63)}px`}
+          height={`${calcHeight(0.63)}px`}
           onReady={() =>
             playerRef.current && setStopTime(playerRef.current.getDuration())
           }
           onProgress={handleProgress}
         />
       </div>
+
       <span
         style={{
           display: "flex",
@@ -130,8 +138,32 @@ function App() {
           Set Stop Time
         </button>
       </span>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center", padding:'10px' }}>
+        <button
+          onClick={() => {
+            changeStartTime(0);
+            changeStopTime(playerRef.current?.getDuration() || 100);
+          }}
+        >
+          Reset All
+        </button>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+function calcHeight(ratio: number) {
+  if (window.innerWidth > window.innerHeight) {
+    return window.innerHeight * ratio;
+  }
+  return window.innerWidth / 16 * 9 * ratio;
+}
+
+function calcWidth(ratio: number) {
+  if (window.innerWidth > window.innerHeight) {
+    return window.innerWidth * ratio;
+  }
+  return window.innerHeight / 16 * 9 * ratio;
+}
